@@ -1,0 +1,10 @@
+services:
+  zzd-dashboard:
+    build: .
+    # Maps standard Dash port (8050) on host to your internal Gunicorn port (36365)
+    ports:
+      - "8050:36365"
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
