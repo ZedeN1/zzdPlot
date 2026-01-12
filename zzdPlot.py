@@ -528,14 +528,14 @@ app.layout = html.Div([
         # Column 2: STACKED Tolerance Inputs
         html.Div([
             html.Div([
-                html.Label('HTOL:', style={'display': 'inline-block', 'width': '50px', 'fontWeight': 'bold'}),
-                dcc.Input(id='htol-input', type='number', value=0.01, step=0.001,
+                html.Label('QTOL:', style={'display': 'inline-block', 'width': '50px', 'fontWeight': 'bold'}),
+                dcc.Input(id='qtol-input', type='number', value=0.01, step=0.001,
                           style={'width': '80px', 'height': '28px', 'borderRadius': '4px', 'border': '1px solid #ccc'}),
             ], style={'marginBottom': '4px'}),
 
             html.Div([
-                html.Label('QTOL:', style={'display': 'inline-block', 'width': '50px', 'fontWeight': 'bold'}),
-                dcc.Input(id='qtol-input', type='number', value=0.01, step=0.001,
+                html.Label('HTOL:', style={'display': 'inline-block', 'width': '50px', 'fontWeight': 'bold'}),
+                dcc.Input(id='htol-input', type='number', value=0.01, step=0.001,
                           style={'width': '80px', 'height': '28px', 'borderRadius': '4px', 'border': '1px solid #ccc'}),
             ]),
         ], style={
@@ -754,7 +754,7 @@ def update_dashboard(contents, qtol, htol, filename):
     data = extract_zzd_data(decoded_bytes)
 
     # 1. Convergence Plot
-    c_fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.08,
+    c_fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.10,
                          subplot_titles=('DQ Convergence (Violations Only)', 'DH Convergence (Violations Only)'))
 
     # --- NEW: Pre-calculate total violations per node for sorting ---
@@ -820,11 +820,7 @@ def update_dashboard(contents, qtol, htol, filename):
                     annotation_text=f"HTOL (+{htol})", annotation_position="top right", row=2, col=1)
 
     # 2. Warning Plot
-    w_fig = make_subplots(rows=2, cols=1, row_heights=[0.7, 0.3], vertical_spacing=0.1,
-                          subplot_titles=('Temporal Warning Distribution', 'Total Warning Counts'))
-
-    # 2. Warning Plot
-    w_fig = make_subplots(rows=2, cols=1, row_heights=[0.7, 0.3], vertical_spacing=0.1,
+    w_fig = make_subplots(rows=2, cols=1, row_heights=[0.7, 0.3], vertical_spacing=0.10,
                           subplot_titles=('Temporal Warning Distribution', 'Total Warning Counts'))
 
     if not data['warnings'].empty:
