@@ -23,6 +23,8 @@ import pandas as pd
 import numpy as np
 
 # Warning code descriptions
+# https://help.floodmodeller.com/docs/warning-messages-river
+# https://help.floodmodeller.com/docs/error-messages-river
 WARNING_DESCRIPTIONS = {
     "W2000": "Poor model convergence",
     "W2001": "Conduits with variable x-section are not permitted",
