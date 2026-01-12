@@ -523,7 +523,7 @@ app.layout = html.Div([
         html.Div([
             html.H4('ZZD Convergence Dashboard', style={'margin': '0', 'color': '#2c3e50'}),
             html.Div(id='file-info', style={'fontSize': '0.85em', 'color': '#666', 'marginTop': '5px'})
-        ], style={'flex': '1 1 200px'}), # flex-grow, flex-shrink, flex-basis
+        ], style={'flex': '1 1 200px'}), 
 
         # Column 2: STACKED Tolerance Inputs
         html.Div([
@@ -568,7 +568,7 @@ app.layout = html.Div([
                     'textAlign': 'center', 'backgroundColor': '#fff', 'cursor': 'pointer'
                 }
             )
-        ], style={'flex': '2 1 300px'}), # Allow upload to take more space but shrink if needed
+        ], style={'flex': '2 1 300px'}), 
 
         # Column 4: Summary Status
         html.Div(id='processing-output', style={
@@ -579,9 +579,10 @@ app.layout = html.Div([
         })
 
     ], style={
+        'flex': '0 0 auto',          # CHANGE 1: Header takes only needed space (no growth/shrink)
         'display': 'flex',
-        'flexWrap': 'wrap',      # THE FIX: Allows items to move to next line
-        'gap': '15px',           # Space between wrapped items
+        'flexWrap': 'wrap',
+        'gap': '15px',
         'alignItems': 'center',
         'padding': '15px 25px',
         'background': '#f8f9fa',
@@ -591,13 +592,26 @@ app.layout = html.Div([
 
     dcc.Tabs([
         dcc.Tab(label='Convergence (DQ & DH)', children=[
-            dcc.Graph(id='convergence-graph', style={'height': '75vh'})
+            # CHANGE 2: Graph takes 100% of parent Tab content
+            dcc.Graph(id='convergence-graph', style={'height': '100%', 'width': '100%'})
         ]),
         dcc.Tab(label='Warning Analysis', children=[
-            dcc.Graph(id='warning-graph', style={'height': '75vh'})
+            # CHANGE 2: Graph takes 100% of parent Tab content
+            dcc.Graph(id='warning-graph', style={'height': '100%', 'width': '100%'})
         ]),
-    ])
-])
+    ], 
+    # CHANGE 3: Tabs expand to fill remaining vertical space
+    parent_style={'flex': '1', 'display': 'flex', 'flexDirection': 'column'},
+    content_style={'flex': '1', 'position': 'relative'}
+    )
+
+], style={
+    # CHANGE 4: Main container fills viewport and uses flex column
+    'height': 'calc(100vh - 15px)', 
+    'display': 'flex', 
+    'flexDirection': 'column',
+    'overflow': 'hidden'
+})
 
 # --- Data Extraction ---
 def extract_zzd_data(zzd_bytes):
